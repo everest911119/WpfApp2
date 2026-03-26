@@ -50,7 +50,9 @@
                 <DataGrid x:Name="DATA_GRID"
                           AutoGenerateColumns="False"
                           Background="LightGray"
-                          ItemsSource="{Binding Items}">
+                          ItemsSource="{Binding Items}" 
+                          CanUserSortColumns="False"
+                          >
                     <DataGrid.InputBindings>
                         <KeyBinding Key="Enter"
                                     Command="{Binding UpdateLengthCommand}"
@@ -88,6 +90,7 @@
                           Background="LightGray"
                           CanUserSortColumns="False"
                           IsReadOnly="True"
+                          
                           ItemsSource="{Binding Items}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="*" />

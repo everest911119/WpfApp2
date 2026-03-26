@@ -43,7 +43,8 @@ namespace WpfApp2.FileHandle
                 var items = JsonSerializer.Deserialize<List<ItemWithMeter>>(json.ToString());
                 if (items==null||items.Any(item => item.LengthMm < 0) || items.Any(item => string.IsNullOrEmpty(item.Name)))
                     {
-                    MessageBox.Show($"Invalid data in JSON file: LengthMm must be non-negative and Name must not be empty.", 
+                    int wrongId = items?.FirstOrDefault(item => item.LengthMm < 0 || string.IsNullOrEmpty(item.Name))?.Id ?? -1;
+                    MessageBox.Show($"Invalid data in JSON file:id: {wrongId} LengthMm must be non-negative and Name must not be empty.", 
                         "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return Array.Empty<ItemDto>();
                 }
