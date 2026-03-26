@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WpfApp2.Configuration;
 using WpfApp2.FileHandle;
+using WpfApp2.Services;
 using WpfApp2.ViewModels;
 
 namespace WpfApp2
@@ -17,6 +18,7 @@ namespace WpfApp2
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            //configure appsettings.json
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -24,8 +26,12 @@ namespace WpfApp2
 
             var services = new ServiceCollection();
             services.AddSingleton<IConfiguration>(configuration);
+            //inject messageBox service
+            services.AddSingleton<IMessageBoxService, MessageBoxService>();
+            //inject filehandle service
             services.AddScoped<JsonFileHandle>();
             services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
+            //inject viewmodels and views
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<MainWindow>();
 

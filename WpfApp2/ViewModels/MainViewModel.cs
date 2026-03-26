@@ -64,13 +64,7 @@ namespace WpfApp2.ViewModels
 
         private void Recalc()
         {
-            var recalculated = _jsonFileHandle.Reclculate(Items.ToList());
-            Items.Clear();
-
-            foreach (var item in recalculated)
-            {
-                Items.Add(item);
-            }
+            _jsonFileHandle.SaveToJson(Items.ToList());
         }
 
         private void UpdateLength(ItemDto? item)
