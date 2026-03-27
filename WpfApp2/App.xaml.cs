@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Windows;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +32,7 @@ namespace WpfApp2
             services.AddScoped<JsonFileHandle>();
             services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
             //inject viewmodels and views
-            services.AddSingleton<MainViewModel>();
+            services.AddTransient<MainViewModel>();
             services.AddSingleton<MainWindow>();
 
             _serviceProvider = services.BuildServiceProvider();

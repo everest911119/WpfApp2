@@ -1,12 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
+
 using System.IO;
-using System.Linq;
-using System.Reflection.Emit;
+
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
+
 using System.Windows;
 using WpfApp2.Configuration;
 using WpfApp2.Model;
@@ -44,9 +42,9 @@ namespace WpfApp2.FileHandle
             try
             {
                 var items = JsonSerializer.Deserialize<List<ItemWithMeter>>(json.ToString());
-                if (items == null || items.Any(item => item.LengthMm < 0) || items.Any(item => string.IsNullOrEmpty(item.Name)))
+                if (items == null || items.Any(item => item.LengthMm <= 0) || items.Any(item => string.IsNullOrEmpty(item.Name)))
                 {
-                    int wrongId = items?.FirstOrDefault(item => item.LengthMm < 0 || string.IsNullOrEmpty(item.Name))?.Id ?? -1;
+                    int wrongId = items?.FirstOrDefault(item => item.LengthMm <= 0 || string.IsNullOrEmpty(item.Name))?.Id ?? -1;
                     _messageBoxService.Show($"Invalid data in JSON file:id: {wrongId} LengthMm must be non-negative and Name must not be empty.",
                         "Error", MessageBoxButton.OK);
                     return Array.Empty<ItemDto>();
