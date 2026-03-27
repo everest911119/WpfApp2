@@ -84,7 +84,7 @@ namespace WpfApp2.ViewModels
             {
                 
                 MessageBox.Show("Length cannot be negative.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
-                var nubmer = cache.Where(i=>i.Id==item.Id).FirstOrDefault().LengthMm;
+                var nubmer = cache.FirstOrDefault(i=>i.Id==item.Id)?.LengthMm??1000;
                 item.LengthMm = nubmer; // Reset to default value
           
             }
