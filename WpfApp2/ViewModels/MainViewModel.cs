@@ -26,7 +26,7 @@ namespace WpfApp2.ViewModels
         public IRelayCommand ExportCommand { get; }
         public IRelayCommand RecalcCommand { get; }
         public IRelayCommand<ItemDto?> UpdateLengthCommand { get; }
-
+        private readonly List<ItemWithMeter> cache = new List<ItemWithMeter>();
         public MainViewModel(IOptions<AppSettings> options, JsonFileHandle jsonFileHandle)
         {
             _settings = options.Value;
@@ -48,7 +48,14 @@ namespace WpfApp2.ViewModels
             foreach (var item in items)
             {
                 Items.Add(item);
+                cache.Add(new ItemWithMeter
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    LengthMm = item.LengthMm,
+                });
             }
+            
         }
 
         private void Export()
@@ -75,16 +82,26 @@ namespace WpfApp2.ViewModels
             }
             if (item.LengthMm <= 0)
             {
+                
                 MessageBox.Show("Length cannot be negative.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                var nubmer = cache.Where(i=>i.Id==item.Id).FirstOrDefault().LengthMm;
+                item.LengthMm = nubmer; // Reset to default value
+          
             }
 
             var recalculated = _jsonFileHandle.Reclculate(Items.ToList());
             Items.Clear();
-
+            cache.Clear();
             foreach (var updated in recalculated)
             {
                 Items.Add(updated);
+                
+                cache.Add(new ItemWithMeter
+                {
+                    Id = updated.Id,
+                    Name = updated.Name,
+                    LengthMm = updated.LengthMm,
+                });
             }
         }
 
