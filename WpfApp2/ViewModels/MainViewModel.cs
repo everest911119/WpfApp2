@@ -88,6 +88,12 @@ namespace WpfApp2.ViewModels
                 item.LengthMm = nubmer; // Reset to default value
           
             }
+            if (String.IsNullOrWhiteSpace(item.Name))
+            {
+                MessageBox.Show("Name cannot be empty.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
+                var name = cache.FirstOrDefault(i=>i.Id==item.Id)?.Name??"Unknown";
+                item.Name = name; // Reset to default value
+            }
 
             var recalculated = _jsonFileHandle.Reclculate(Items.ToList());
             Items.Clear();
